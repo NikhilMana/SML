@@ -1,0 +1,93 @@
+{
+  "suite_name": "chatbot_core_benchmarks",
+  "version": "1.0.0",
+  "description": "Standardized evaluation suite for assessing small language models on conversational, reasoning, and instruction-following tasks.",
+  "tasks": [
+    {
+      "task_id": "chat_gen_01",
+      "category": "general_knowledge",
+      "prompt": "What is the primary difference in attention mechanism between an autoregressive decoder (like LLaMA or Qwen) and an encoder-only model (like BERT)?",
+      "evaluation_criteria": {
+        "required_keywords": ["causal", "mask", "bidirectional", "unidirectional"],
+        "min_length_chars": 50,
+        "rubric": "Must correctly explain that autoregressive decoders use causal (unidirectional/masked) attention to attend only to previous tokens, whereas encoder-only models use bidirectional attention."
+      }
+    },
+    {
+      "task_id": "chat_inst_02",
+      "category": "instruction_following",
+      "prompt": "List exactly three benefits of running small language models locally on a device. Format your response strictly as a numbered list where each line begins with 'Benefit: ' and ends with a period. Do not include any introductory or concluding sentences.",
+      "evaluation_criteria": {
+        "line_prefix": "Benefit:",
+        "exact_item_count": 3,
+        "forbid_intro": true,
+        "rubric": "Must contain exactly 3 lines, each starting with 'Benefit: ' or numbered 'Benefit: ', no conversational preamble."
+      }
+    },
+    {
+      "task_id": "chat_summ_03",
+      "category": "summarization",
+      "prompt": "Summarize the following text in exactly one clear sentence: 'Edge AI brings artificial intelligence computation directly to physical devices like smartphones, drones, and laptop computers, eliminating the requirement to stream raw private data to external cloud servers. By processing inferences locally, edge computing delivers substantially lower latency, reduces broadband bandwidth consumption, enhances user privacy, and guarantees system availability even during internet connectivity disruptions.'",
+      "evaluation_criteria": {
+        "max_sentence_count": 1,
+        "required_concepts": ["edge", "local", "privacy", "latency"],
+        "rubric": "Must produce exactly one sentence that captures the key advantages of edge/local AI processing."
+      }
+    },
+    {
+      "task_id": "chat_logic_04",
+      "category": "logical_reasoning",
+      "prompt": "A farmer has 17 sheep. All but 9 run away. How many sheep does the farmer have left? Explain your reasoning in two sentences or less.",
+      "evaluation_criteria": {
+        "expected_answer": "9",
+        "forbidden_answer": "8",
+        "rubric": "The answer must be 9 sheep. Stating 8 is a classic logical failure from subtracting 9 from 17."
+      }
+    },
+    {
+      "task_id": "chat_code_05",
+      "category": "python_coding",
+      "prompt": "Write a Python function named `is_palindrome(s: str) -> bool` that returns True if the string is a palindrome, ignoring non-alphanumeric characters and case. Include type annotations. Return code only.",
+      "evaluation_criteria": {
+        "function_name": "is_palindrome",
+        "must_compile_python": true,
+        "test_cases": [
+          {"input": "A man, a plan, a canal: Panama", "expected": true},
+          {"input": "race a car", "expected": false},
+          {"input": "Was it a car or a cat I saw?", "expected": true}
+        ],
+        "rubric": "Must produce valid Python code implementing `is_palindrome` that handles case and punctuation filtering."
+      }
+    },
+    {
+      "task_id": "chat_json_06",
+      "category": "json_generation",
+      "prompt": "Generate a JSON object representing a technical book with the exact keys: 'title', 'author', 'year' (as an integer), and 'topics' (as an array of strings). Output only raw JSON without explanations or markdown fences.",
+      "evaluation_criteria": {
+        "must_be_valid_json": true,
+        "required_keys": ["title", "author", "year", "topics"],
+        "rubric": "Must output strictly valid JSON conforming to the requested schema and data types."
+      }
+    },
+    {
+      "task_id": "chat_ambig_07",
+      "category": "ambiguous_requests",
+      "prompt": "Can you fix the bug in the function?",
+      "evaluation_criteria": {
+        "should_request_clarification": true,
+        "should_not_invent_code": true,
+        "rubric": "Since no code or bug was supplied, a capable model must politely ask for the code or details rather than hallucinating an arbitrary bug fix."
+      }
+    },
+    {
+      "task_id": "chat_halluc_08",
+      "category": "hallucination_sensitive",
+      "prompt": "Who was the lead astronaut who walked on the surface of Mars during the 2018 Apollo-Ares mission?",
+      "evaluation_criteria": {
+        "refutes_false_premise": true,
+        "forbidden_names": ["Neil Armstrong", "Buzz Aldrin"],
+        "rubric": "Must explicitly identify and refute the false premise: humans have never walked on Mars, and no Apollo-Ares mission occurred in 2018."
+      }
+    }
+  ]
+}

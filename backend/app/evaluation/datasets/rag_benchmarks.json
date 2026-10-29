@@ -1,0 +1,58 @@
+{
+  "suite_name": "rag_core_benchmarks",
+  "version": "1.0.0",
+  "description": "Standardized evaluation suite assessing retrieval recall, citation validity, answer groundedness, and abstention across Small Language Models.",
+  "sample_knowledge_base": [
+    {
+      "filename": "slm_technical_specifications.md",
+      "content": "# Small Language Models Technical Whitepaper\n\n## Section 1: Memory and Parameter Profiles\nSmall Language Models (SLMs) typically operate in the sub-4-billion parameter domain, enabling on-device execution on consumer hardware with 6GB to 8GB of VRAM.\n\n### Model A: Qwen 2.5 3B Instruct\nQwen 2.5 3B is commercially classified as a 3B model, although its exact published parameter count is approximately 3.09 billion parameters. It utilizes a 32,768-token native context window and standard GQA (Grouped Query Attention). It requires approximately 1.9 GB of VRAM when quantized to 4-bit (Q4_K_M).\n\n### Model B: Llama 3.2 3B Instruct\nMeta released Llama 3.2 3B Instruct with an official count of 3.21 billion parameters. It supports a context window of up to 131,072 tokens and features specialized multilingual capabilities across 8 core languages.\n\n### Model C: Qwen3 1.7B\nQwen3 1.7B represents an ultra-compact architecture containing 1.70 billion parameters. It loads within 1.4 GB of system memory, providing high tokens-per-second throughput (often exceeding 70-90 tokens per second on laptop GPUs).\n\n## Section 2: Retrieval and Vector Storage\nIn local RAG architectures, documents are chunked using semantic sentence boundaries and transformed into dense vectors via sentence-transformers models such as `all-MiniLM-L6-v2`, which outputs 384-dimensional normalized vectors stored in persistent ChromaDB collections.\n\n## Section 3: Safety Guardrails and Database Interaction\nWhen connecting SLMs to relational databases, direct raw SQL generation poses catastrophic hallucination and injection hazards. The laboratory mandates a two-phase confirmation protocol: the model produces a validated structured operation proposal, trusted Python backend code applies parameterized SQL statements, and destructive UPDATE or DELETE mutations require manual user confirmation before commit."
+    }
+  ],
+  "tasks": [
+    {
+      "task_id": "rag_param_01",
+      "category": "factoid_extraction",
+      "question": "What is the exact published parameter count of Qwen 2.5 3B Instruct according to the technical whitepaper?",
+      "expected_answer": "Approximately 3.09 billion parameters (commercialized as 3B).",
+      "required_keywords": ["3.09", "billion"],
+      "expected_source": "slm_technical_specifications.md",
+      "requires_abstention": false
+    },
+    {
+      "task_id": "rag_dim_02",
+      "category": "technical_specification",
+      "question": "What embedding dimensionality does all-MiniLM-L6-v2 produce according to the document?",
+      "expected_answer": "384-dimensional normalized vectors.",
+      "required_keywords": ["384", "dimension"],
+      "expected_source": "slm_technical_specifications.md",
+      "requires_abstention": false
+    },
+    {
+      "task_id": "rag_vram_03",
+      "category": "numerical_comparison",
+      "question": "How much VRAM does Qwen 2.5 3B require under 4-bit quantization, and what context window does Llama 3.2 3B support?",
+      "expected_answer": "Qwen 2.5 3B requires approximately 1.9 GB of VRAM under 4-bit quantization, and Llama 3.2 3B supports up to 131,072 tokens.",
+      "required_keywords": ["1.9", "131,072"],
+      "expected_source": "slm_technical_specifications.md",
+      "requires_abstention": false
+    },
+    {
+      "task_id": "rag_abstain_04",
+      "category": "insufficient_evidence",
+      "question": "What is the maximum battery life of a quantum smartphone running an SLM?",
+      "expected_answer": "Insufficient evidence in the provided documents to answer this question.",
+      "required_keywords": ["insufficient evidence"],
+      "expected_source": null,
+      "requires_abstention": true
+    },
+    {
+      "task_id": "rag_safety_05",
+      "category": "policy_extraction",
+      "question": "What safety protocol is mandated before executing destructive database operations like UPDATE or DELETE?",
+      "expected_answer": "A two-phase confirmation protocol where the model produces a validated proposal and manual user confirmation is required before committing mutations.",
+      "required_keywords": ["two-phase", "confirmation", "proposal"],
+      "expected_source": "slm_technical_specifications.md",
+      "requires_abstention": false
+    }
+  ]
+}

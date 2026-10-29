@@ -1,0 +1,62 @@
+# Python Virtual Environment & Bytecode
+.venv/
+venv/
+ENV/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Node & Frontend Build Artifacts
+node_modules/
+frontend/node_modules/
+dist/
+frontend/dist/
+.vite/
+frontend/.vite/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local SQLite Databases & Chroma Vector Storage (All locations)
+*.db
+*.sqlite3
+*.sqlite
+*.db-journal
+*.db-wal
+*.db-shm
+**/chroma_db/
+**/chromadb/
+storage/uploads/*
+backend/storage/uploads/*
+storage/documents/*
+backend/storage/documents/*
+!storage/uploads/.gitkeep
+!storage/.gitkeep
+
+# Environment Variables & Secrets
+.env
+.env.local
+.env.*.local
+backend/.env
+frontend/.env
+*.env
+
+# Operating System & Editor Files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Agent & Brain Artifacts
+.agents/
+.system_generated/
